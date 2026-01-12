@@ -4,12 +4,6 @@ import {
   initPGRComponents,
   PGRReducers,
 } from "@upyog/digit-ui-module-pgr";
-import { initFSMComponents } from "@upyog/digit-ui-module-fsm";
-import {
-  PTModule,
-  PTLinks,
-  PTComponents,
-} from "@nudmcdgnpm/upyog-ui-module-pt";
 import { MCollectModule, MCollectLinks, initMCollectComponents } from "@upyog/digit-ui-module-mcollect";
 import { initDSSComponents } from "@upyog/digit-ui-module-dss";
 import {
@@ -23,14 +17,7 @@ import {
   HRMSModule,
   initHRMSComponents,
 } from "@upyog/digit-ui-module-hrms";
-import {
-  TLModule,
-  TLLinks,
-  initTLComponents,
-} from "@upyog/digit-ui-module-tl";
 import { initReceiptsComponents, ReceiptsModule } from "@upyog/digit-ui-module-receipts";
-import { initOBPSComponents } from "@upyog/digit-ui-module-obps";
-import { initNOCComponents } from "@upyog/digit-ui-module-noc";
 import { initEngagementComponents } from "@upyog/digit-ui-module-engagement";
 import { initWSComponents } from "@upyog/digit-ui-module-ws";
 // import { initCustomisationComponents } from "./Customisations";
@@ -43,15 +30,6 @@ import {
 } from "@upyog/upyog-ui-module-ptr";
 import { ASSETComponents, ASSETLinks, ASSETModule } from "@upyog/upyog-ui-module-asset";
 
-import { 
-  EWModule, 
-  EWLinks, 
-  EWComponents }
-  from "@upyog/upyog-ui-module-ew";
-
-import { SVComponents, SVLinks, SVModule } from "@upyog/upyog-ui-module-sv";
-import {CHBModule,CHBLinks,CHBComponents} from "@upyog/upyog-ui-module-chb";
-import {ADSModule,ADSLinks,ADSComponents} from "@upyog/upyog-ui-module-ads";
 import { WTModule, WTLinks, WTComponents } from "@nudmcdgnpm/upyog-ui-module-wt";
 import { VENDORComponents, VENDORLinks, VENDORModule } from "@nudmcdgnpm/upyog-ui-module-vendor";
 import { PGRAIComponents, PGRAILinks, PGRAIModule } from "@nudmcdgnpm/upyog-ui-module-pgrai";
@@ -62,18 +40,13 @@ initLibraries();
 const enabledModules = [
   "Tqm",
   "PGR",
-  "FSM",
   "Payment",
-  "PT",
   "QuickPayLinks",
   "DSS",
   "NDSS",
   "MCollect",
   "HRMS",
-  "TL",
   "Receipts",
-  "OBPS",
-  "NOC",
   "Engagement",
   "CommonPT",
   "WS",
@@ -86,10 +59,6 @@ const enabledModules = [
   "Death",
   "PTR",
   "ASSET",
-  "ADS",
-  "SV",
-  "EW",
-  "CHB",
   "WT",
   "VENDOR",
   "MT",
@@ -99,16 +68,11 @@ const enabledModules = [
 ];
 window.Digit.ComponentRegistryService.setupRegistry({
   ...paymentConfigs,
-  PTModule,
-  PTLinks,
   PaymentModule,
   PaymentLinks,
-  ...PTComponents,
   MCollectLinks,
   MCollectModule,
   HRMSModule,
-  TLModule,
-  TLLinks,
   ReceiptsModule,
   PTRModule,
   PTRLinks,
@@ -116,18 +80,6 @@ window.Digit.ComponentRegistryService.setupRegistry({
   ASSETModule,
   ASSETLinks,
   ...ASSETComponents,
-  ADSLinks,
-  ADSModule,
-  ...ADSComponents,
-  SVModule,
-  SVLinks,
-  ...SVComponents,
-  EWModule,
-  EWLinks,
-  ...EWComponents,
-  CHBModule,
-  CHBLinks,
-  ...CHBComponents,
   WTModule,
   WTLinks,
   ...WTComponents,
@@ -140,14 +92,10 @@ window.Digit.ComponentRegistryService.setupRegistry({
 });
 
 initPGRComponents();
-initFSMComponents();
 initDSSComponents();
 initMCollectComponents();
 initHRMSComponents();
-initTLComponents();
 initReceiptsComponents();
-initOBPSComponents();
-initNOCComponents();
 initEngagementComponents();
 initWSComponents();
 initCommonPTComponents();
