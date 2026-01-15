@@ -16,7 +16,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@djb25/digit-ui-css": "1.0.0",
+    "@mcd89/digit-ui-css": "1.0.0",
     "@upyog/digit-ui-libraries": "3.0.0",
     "@upyog/digit-ui-module-bills": "3.0.0",
     "@upyog/digit-ui-module-common": "3.0.4",
