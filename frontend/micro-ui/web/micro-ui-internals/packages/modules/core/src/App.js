@@ -82,7 +82,7 @@ export const DigitApp = ({ stateCode, modules, appTenants, logoUrl, initData }) 
     </Route>
 
       {/* ✅ DEFAULT LANDING PAGE ROUTE */}
-      <Route exact path={`/${window?.contextPath}`}>
+      <Route exact path={`/${window?.contextPath}/home`}>
         <LandingPage {...commonProps} />
       </Route>
 
