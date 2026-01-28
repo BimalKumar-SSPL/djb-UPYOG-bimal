@@ -1,7 +1,6 @@
 {
-    "name": "@nudmcdgnpm/upyog-ui-module-wt",
-    "author": "Shivank Shukla",
-    "version": "1.0.1",
+    "name": "@djb25/digit-ui-module-wt",
+    "version": "1.0.0",
     "license": "MIT",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
@@ -19,8 +18,8 @@
       "react-router-dom": "5.3.0"
     },
     "dependencies": {
-      "@nudmcdgnpm/digit-ui-libraries": "1.2.1",
-      "@nudmcdgnpm/digit-ui-react-components": "1.2.14",
+      "@upyog/digit-ui-libraries": "3.0.0",
+      "@upyog/digit-ui-react-components": "3.0.2",
       "jspdf": "^2.5.1",
       "jspdf-autotable": "^3.8.2",
       "lodash.merge": "^4.6.2",
