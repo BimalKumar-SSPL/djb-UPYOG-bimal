@@ -20,6 +20,8 @@ public class CustomAsyncRequest {
 	private Map<String, Object> request;
 	private Map<String, Object> response;
 	private String sourceUri;
+
+	@Builder.Default
 	Map<String, List<String>> queryParamMap = new HashMap<>();
 	
 }

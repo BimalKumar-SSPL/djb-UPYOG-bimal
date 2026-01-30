@@ -1,6 +1,8 @@
 package com.example.gateway.utils;
 
 import com.example.gateway.config.ApplicationProperties;
+import java.util.Collections;
+
 import lombok.extern.slf4j.Slf4j;
 import org.egov.common.contract.request.User;
 import org.egov.common.contract.user.UserDetailResponse;
@@ -10,6 +12,8 @@ import org.egov.tracer.model.CustomException;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
@@ -24,29 +28,40 @@ import static com.example.gateway.constants.GatewayConstants.REQUEST_TENANT_ID_K
 public class UserUtils {
 
     private RestTemplate restTemplate;
-
     private ApplicationProperties applicationProperties;
-
     private MultiStateInstanceUtil multiStateInstanceUtil;
+    private final KeycloakTokenValidator tokenValidator;
 
-    public UserUtils (RestTemplate restTemplate, ApplicationProperties applicationProperties) {
+    public UserUtils(RestTemplate restTemplate, ApplicationProperties applicationProperties, KeycloakTokenValidator tokenValidator) {
         this.restTemplate = restTemplate;
         this.applicationProperties = applicationProperties;
+        this.tokenValidator = tokenValidator;
     }
 
     public User getUser(String authToken) {
-        String authURL = String.format("%s%s%s", applicationProperties.getAuthServiceHost(), applicationProperties.getAuthUri(), authToken);
-
-        User user;
-
+        Jwt jwt;
         try {
-            user = restTemplate.postForObject(authURL, null, User.class);
-        } catch (Exception e) {
-            throw new CustomException("Exception occurred while fetching user: ", e.getMessage());
-//          throw new CustomException("Exception occurred while fetching user: ", "Error while authenticating the auth token");
+            log.info("Checking token: {}", authToken);
+            jwt = this.tokenValidator.validate(authToken);
+        } catch (JwtException var10) {
+            throw new CustomException("INVALID_TOKEN", var10.getMessage());
         }
 
-        return user;
+        String preferredUsername = jwt.getClaimAsString("preferred_username");
+        log.info("preferred_username: {}", preferredUsername);
+        String email = jwt.getClaimAsString("email");
+        log.info("email: {}", email);
+        String sub = jwt.getSubject();
+        log.info("sub: {}", sub);
+        String authURL = String.format("%s%s%s", this.applicationProperties.getAuthServiceHost(), this.applicationProperties.getAuthUri(), authToken);
+
+        try {
+            User user = (User)this.restTemplate.postForObject(authURL, (Object)null, User.class, new Object[0]);
+            log.info(user.toString());
+            return user;
+        } catch (Exception var9) {
+            throw new CustomException("Exception occurred while fetching user: ", var9.getMessage());
+        }
     }
 
     @Cacheable(value = "systemUser" , sync = true)
