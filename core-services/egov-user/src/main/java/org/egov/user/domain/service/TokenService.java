@@ -124,11 +124,25 @@ public class TokenService {
 //                }
 //            }
 
+//            Set<Role> roles = Optional.ofNullable(dbRoles)
+//                    .orElseGet(Collections::emptyList)
+//                    .stream()
+//                    .filter(Objects::nonNull)
+//                    .map(dto -> new Role(dto.getCode(), dto.getName(), tenantId))
+//                    .collect(Collectors.toCollection(HashSet::new));
+
             Set<Role> roles = Optional.ofNullable(dbRoles)
                     .orElseGet(Collections::emptyList)
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(dto -> new Role(dto.getCode(), dto.getName(), tenantId))
+                    .map(dto -> {
+                        Role r = new Role();
+                        r.setCode(dto.getCode());
+                        r.setName(dto.getName());
+                        r.setTenantId(tenantId);
+                        return r;
+                    })
+                    .filter(r -> r.getCode() != null && !r.getCode().isBlank()) // prevents your crash
                     .collect(Collectors.toCollection(HashSet::new));
 
             log.info("Retrieved roles {}", roles);
