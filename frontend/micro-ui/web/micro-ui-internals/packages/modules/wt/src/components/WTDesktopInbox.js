@@ -62,6 +62,13 @@ const WTDesktopInbox = ({ tableConfig, filterComponent, ...props }) => {
         },
       ];
 
+      if (columns?.some((column) => column?.id === "fillingPoint")) {
+        csvColumns.push({
+          Header: columns?.find((column) => column?.id === "fillingPoint")?.Header || t("Filling Point"),
+          exportAccessor: (row) => row?.searchData?.fillingPointMetadata?.name || row?.searchData?.fillingPointName || "-",
+        });
+      }
+
       if (columns?.some((column) => column?.id === "createdTime")) {
         csvColumns.push({
           Header: columns?.find((column) => column?.id === "createdTime")?.Header || t("CREATED_AT"),
@@ -73,6 +80,41 @@ const WTDesktopInbox = ({ tableConfig, filterComponent, ...props }) => {
         Header: columns?.find((column) => column?.id === "applicationStatus")?.Header || t("WT_STATUS"),
         exportAccessor: (row) => (row?.workflowData?.state?.applicationStatus ? t(row.workflowData.state.applicationStatus) : ""),
       });
+
+      if (columns?.some((column) => column?.id === "vendorName")) {
+        csvColumns.push({
+          Header: columns?.find((column) => column?.id === "vendorName")?.Header || t("WT_VENDOR_NAME"),
+          exportAccessor: (row) => row?.searchData?.vendor?.name || row?.searchData?.vendorName || "-",
+        });
+      }
+
+      if (columns?.some((column) => column?.id === "vehicleNumber")) {
+        csvColumns.push({
+          Header: columns?.find((column) => column?.id === "vehicleNumber")?.Header || t("WT_VEHICLE_NO"),
+          exportAccessor: (row) => {
+            const searchData = row?.searchData;
+            const mappedVehicle =
+              searchData?.vehicle ||
+              searchData?.vendor?.vehicles?.find((vehicle) => vehicle?.id === searchData?.vehicleId);
+            return mappedVehicle?.registrationNumber || mappedVehicle?.name || mappedVehicle?.type || searchData?.vehicleName || searchData?.vehicleRegistrationNo || "-";
+          },
+        });
+      }
+
+      if (columns?.some((column) => column?.id === "driverName")) {
+        csvColumns.push({
+          Header: columns?.find((column) => column?.id === "driverName")?.Header || t("WT_DRIVER_NAME"),
+          exportAccessor: (row) => {
+            const searchData = row?.searchData;
+            const mappedDriver =
+              searchData?.driver ||
+              searchData?.vendor?.drivers?.find(
+                (driver) => driver?.id === searchData?.driverId || driver?.ownerId === searchData?.driverId || driver?.owner?.uuid === searchData?.driverId
+              );
+            return mappedDriver?.name || mappedDriver?.owner?.name || searchData?.driverName || "-";
+          },
+        });
+      }
 
       return csvColumns;
     },
