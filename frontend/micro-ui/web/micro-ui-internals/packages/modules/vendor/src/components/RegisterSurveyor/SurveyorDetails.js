@@ -112,7 +112,7 @@ const SurveyorDetails = (props) => {
       case "DELETE_VENDOR":
         return setShowModal(true);
       case "EDIT":
-        return history.push("/digit-ui/employee/vendor/modify-surveyor/" + surveyorId);
+        return history.push("/digit-ui/employee/vendor/registry/modify-surveyor/" + surveyorId);
       case "HOME":
         return history.push("/digit-ui/employee/vendor/search-vendor?selectedTabs=SURVEYOR");
       default:

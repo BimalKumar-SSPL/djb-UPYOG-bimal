@@ -16,9 +16,11 @@ import CitizenVendorApp from "./pages/citizen";
 import EditVendorDetails from "./components/RegisterVendor/EditVendorDetails";
 import AddVendor from "./components/RegisterVendor/AddVendor";
 import AddSupervisor from "./components/RegisterSupervisor/AddSupervisor";
+import SupervisorDetails from "./components/RegisterSupervisor/SupervisorDetails";
+import EditSupervisor from "./components/RegisterSupervisor/EditSupervisor";
 import AddSurveyor from "./components/RegisterSurveyor/AddSurveyor";
 import SurveyorDetails from "./components/RegisterSurveyor/SurveyorDetails";
-import SupervisorDetails from "./components/RegisterSupervisor/SupervisorDetails";
+import EditSurveyor from "./components/RegisterSurveyor/EditSurveyor";
 import CheckPage from "./components/Create/CheckPage";
 import NewResponse from "./components/Create/NewResponse";
 import VENDORCreate from "./components/Create/index";
@@ -54,9 +56,11 @@ const componentsToRegister = {
   VehicleDetails,
   AddSupervisor,
   SupervisorDetails,
+  EditSupervisor,
   SupervisorAreaAssignment,
   AddSurveyor,
   SurveyorDetails,
+  EditSurveyor,
   SelectEkycZones,
   SelectEkycClusters,
   SelectEkycDropdown,

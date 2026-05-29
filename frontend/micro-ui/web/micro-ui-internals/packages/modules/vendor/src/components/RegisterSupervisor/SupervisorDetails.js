@@ -116,7 +116,7 @@ const SupervisorDetails = (props) => {
       case "DELETE_VENDOR":
         return setShowModal(true);
       case "EDIT":
-        return history.push("/digit-ui/employee/vendor/modify-supervisor/" + supervisorId);
+        return history.push("/digit-ui/employee/vendor/registry/modify-supervisor/" + supervisorId);
       case "HOME":
         return history.push("/digit-ui/employee/vendor/search-vendor?selectedTabs=SUPERVISOR");
       default:
