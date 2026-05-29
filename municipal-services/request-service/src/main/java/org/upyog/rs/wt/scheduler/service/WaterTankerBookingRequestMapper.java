@@ -23,10 +23,10 @@ import java.util.Locale;
 @Component
 public class WaterTankerBookingRequestMapper {
 
-    @Value("${wt.booking.default-water-quantity:3000}")
+    @Value("${wt.booking.default-water-quantity}")
     private Integer defaultWaterQuantity;
 
-    @Value("${wt.booking.extra-charge:N}")
+    @Value("${wt.booking.extra-charge}")
     private String extraCharge;
 
     public WaterTankerBookingRequest toBookingCreateRequest(

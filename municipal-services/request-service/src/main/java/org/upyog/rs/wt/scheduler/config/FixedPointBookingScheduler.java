@@ -21,7 +21,7 @@ public class FixedPointBookingScheduler {
 
     private final FixedPointBookingSchedulerService schedulerService;
 
-    @Value("${wt.fixedpoint.scheduler.enabled:true}")
+    @Value("${wt.fixedpoint.scheduler.enabled}")
     private Boolean schedulerEnabled;
 
     @Value("${wt.fixedpoint.tenant-id}")
