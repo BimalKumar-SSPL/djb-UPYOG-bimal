@@ -51,8 +51,10 @@ const EmployeeApp = ({ path, url, userType }) => {
   const VehicleDetails = Digit.ComponentRegistryService.getComponent("VehicleDetails");
   const AddSupervisor = Digit.ComponentRegistryService.getComponent("AddSupervisor");
   const SupervisorDetails = Digit.ComponentRegistryService.getComponent("SupervisorDetails");
+  const EditSupervisor = Digit.ComponentRegistryService.getComponent("EditSupervisor");
   const AddSurveyor = Digit.ComponentRegistryService.getComponent("AddSurveyor");
   const SurveyorDetails = Digit.ComponentRegistryService.getComponent("SurveyorDetails");
+  const EditSurveyor = Digit.ComponentRegistryService.getComponent("EditSurveyor");
   const EditDriver = Digit.ComponentRegistryService.getComponent("EditDriver");
   const EditVehicle = Digit.ComponentRegistryService.getComponent("EditVehicle");
 
@@ -240,6 +242,15 @@ const EmployeeApp = ({ path, url, userType }) => {
             />
 
             <PrivateRoute
+              path={`${path}/registry/modify-supervisor/:id`}
+              component={(props) => (
+                <LayoutWrapper layoutClass="action">
+                  <EditSupervisor {...props} parentRoute={path} />
+                </LayoutWrapper>
+              )}
+            />
+
+            <PrivateRoute
               path={`${path}/registry/new-surveyor`}
               component={(props) => (
                 <LayoutWrapper layoutClass="action">
@@ -253,6 +264,15 @@ const EmployeeApp = ({ path, url, userType }) => {
               component={(props) => (
                 <LayoutWrapper layoutClass="action">
                   <SurveyorDetails {...props} parentRoute={path} />
+                </LayoutWrapper>
+              )}
+            />
+            
+            <PrivateRoute
+              path={`${path}/registry/modify-surveyor/:id`}
+              component={(props) => (
+                <LayoutWrapper layoutClass="action">
+                  <EditSurveyor {...props} parentRoute={path} />
                 </LayoutWrapper>
               )}
             />

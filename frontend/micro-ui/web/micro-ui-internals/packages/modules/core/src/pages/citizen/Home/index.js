@@ -163,12 +163,16 @@ const Home = () => {
         Icon: <DropIcon className="fill-path-primary-main" />,
         onClick: () => history.push("/digit-ui/citizen/ws/home"),
       },
-      {
-        name: t("ACTION_VENDOR_MANAGEMENT"),
-        description: t("Apply for new water connection"),
-        Icon: <VendorManagementIcon className="fill-path-primary-main" />,
-        onClick: () => history.push("/digit-ui/citizen/vendor"),
-      },
+      ...(Digit.UserService.hasAccess(["WT_VENDOR", "EKYC_VENDOR", "EKYC_SUPERVISOR"])
+        ? [
+            {
+              name: t("ACTION_VENDOR_MANAGEMENT"),
+              description: t("Apply for new water connection"),
+              Icon: <VendorManagementIcon className="fill-path-primary-main" />,
+              onClick: () => history.push("/digit-ui/citizen/vendor"),
+            },
+          ]
+        : []),
       // {
       //   name: t(citizenServicesObj?.props?.[3]?.label) === "ACTION_TEST_CHB" ? t("Community Halls") : t(citizenServicesObj?.props?.[3]?.label),
       //   description: t("Book community halls for your events and functions"),

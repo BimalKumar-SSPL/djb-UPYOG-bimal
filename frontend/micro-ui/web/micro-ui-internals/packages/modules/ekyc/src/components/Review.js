@@ -561,7 +561,7 @@ const Review = () => {
         <ActionBar>
           <SubmitBar label={t("EKYC_REJECT")} onSubmit={handleReject} disabled={!agree} />
           <SubmitBar label={t("EKYC_APPROVE")} onSubmit={handleApprove} disabled={!agree} />
-          <SubmitBar label={t("EKYC_SUBMIT_APPLICATION")} onSubmit={handleFinalSubmit} disabled={!agree} />
+          {/* <SubmitBar label={t("EKYC_SUBMIT_APPLICATION")} onSubmit={handleFinalSubmit} disabled={!agree} /> */}
         </ActionBar>
       </Card>
 

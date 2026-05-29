@@ -9,7 +9,12 @@ const VENDORCard = () => {
 
   const isCitizen = window.location.pathname.toLowerCase().includes("citizen");
 
-  const hasAccess = Digit.Utils.vendorAccess() || Digit.UserService.hasAccess(["WT_VENDOR", "MT_VENDOR"]);
+  let hasAccess = Digit.Utils.vendorAccess() || Digit.UserService.hasAccess(["WT_VENDOR", "MT_VENDOR"]);
+
+  if (isCitizen) {
+    hasAccess = Digit.UserService.hasAccess(["WT_VENDOR", "EKYC_VENDOR", "EKYC_SUPERVISOR"]);
+  }
+
   if (!hasAccess) {
     return null;
   }
