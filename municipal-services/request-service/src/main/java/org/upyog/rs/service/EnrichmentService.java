@@ -709,6 +709,26 @@ public class EnrichmentService {
 
 	}
 	public void enrichSearchCriteriaWithIds(RequestInfo requestInfo, WaterTankerBookingSearchCriteria criteria) {
+
+		boolean skipVendorCall = false;
+		if (requestInfo.getUserInfo() != null && !CollectionUtils.isEmpty(requestInfo.getUserInfo().getRoles())) {
+			List<String> roleCodes = requestInfo.getUserInfo().getRoles().stream()
+					.map(role -> role.getCode().toUpperCase())
+					.collect(Collectors.toList());
+
+			boolean hasDriverOrVendor = roleCodes.contains("WT_DRIVER") || roleCodes.contains("WT_VENDOR");
+			boolean hasEmployee = roleCodes.contains("EMPLOYEE");
+
+			// Skip ONLY if they are a driver/vendor and NOT an employee
+			if (hasDriverOrVendor && !hasEmployee) {
+				skipVendorCall = true;
+			}
+		}
+
+		if (skipVendorCall) {
+			log.info("Skipping vendor/vehicle search criteria enrichment for user with WT_DRIVER/WT_VENDOR role and no EMPLOYEE role");
+			return;
+		}
 		String tenantId = criteria.getTenantId();
 
 		if (!StringUtils.isEmpty(criteria.getVendorName())) {
@@ -736,6 +756,26 @@ public class EnrichmentService {
 	}
 	public void enrichCrossServiceDetails(RequestInfo requestInfo, List<WaterTankerBookingDetail> bookings) {
 		if (CollectionUtils.isEmpty(bookings)) return;
+
+		boolean skipVendorCall = false;
+		if (requestInfo.getUserInfo() != null && !CollectionUtils.isEmpty(requestInfo.getUserInfo().getRoles())) {
+			List<String> roleCodes = requestInfo.getUserInfo().getRoles().stream()
+					.map(role -> role.getCode().toUpperCase())
+					.collect(Collectors.toList());
+
+			boolean hasDriverOrVendor = roleCodes.contains("WT_DRIVER") || roleCodes.contains("WT_VENDOR");
+			boolean hasEmployee = roleCodes.contains("EMPLOYEE");
+
+			// Skip ONLY if they are a driver/vendor and NOT an employee
+			if (hasDriverOrVendor && !hasEmployee) {
+				skipVendorCall = true;
+			}
+		}
+
+		if (skipVendorCall) {
+			log.info("Skipping cross-service vendor enrichment for user with WT_DRIVER/WT_VENDOR role and no EMPLOYEE role");
+			return;
+		}
 
 		String tenantId = bookings.get(0).getTenantId();
 
