@@ -24,10 +24,10 @@ import java.time.LocalTime;
 @Component
 public class FixedPointBookingRequestMapper {
 
-    @Value("${wt.booking.default-water-quantity:3000}")
+    @Value("${wt.booking.default-water-quantity}")
     private Integer defaultWaterQuantity;
 
-    @Value("${wt.booking.extra-charge:N}")
+    @Value("${wt.booking.extra-charge}")
     private String extraCharge;
 
     public WaterTankerBookingRequest toBookingRequest(

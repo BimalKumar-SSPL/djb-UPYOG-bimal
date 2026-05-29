@@ -14,11 +14,12 @@ public class WaterTankerCancellationScheduler {
     @Autowired
     private WaterTankerCancellationService cancellationService;
 
-    @Value("${wt.cancel.scheduler.enabled:true}")
+    @Value("${wt.cancel.scheduler.enabled}")
     private Boolean schedulerEnabled;
 
     // Cron expression for 11:30 PM daily
-    @Scheduled(cron = "${wt.cancel.scheduler.cron:0 30 23 * * ?}", zone = "Asia/Kolkata")
+    @Scheduled(cron = "${wt.cancel.scheduler.cron}",
+              zone = "${app.timezone:UTC}")
     public void executeNightlyCancellations() {
         log.info("--- CRON TRIGGERED: Starting 11:30 PM Automated Cancellations ---");
 

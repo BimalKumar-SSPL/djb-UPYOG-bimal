@@ -21,6 +21,7 @@ import org.upyog.rs.wt.scheduler.model.VehicleDriverAssignmentData;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ public class FixedPointBookingSchedulerService {
     private final WaterTankerInternalBookingService internalBookingService;
     private final FillingPointRepository fillingPointRepository;
 
-    @Value("${wt.fixedpoint.tenant-id:dl.djb}")
+    @Value("${wt.fixedpoint.tenant-id}")
     private String tenantId;
 
     public FixedPointSchedulerRunResponse runScheduler(
@@ -83,6 +84,15 @@ public class FixedPointBookingSchedulerService {
         if (timetableRows.isEmpty()) {
             log.info("No enabled fixed points found for today. Skipping booking creation.");
             // You can safely return the response early here if there is nothing to schedule.
+            return FixedPointSchedulerRunResponse.builder()
+                    .tenantId(tenantId)
+                    .deliveryDate(deliveryDate.toString())
+                    .dayOfWeek(dayOfWeek.name())
+                    .totalScheduledRows(0)
+                    .successCount(0)
+                    .failedCount(0)
+                    .fillingPointSummaries(Collections.emptyList())
+                    .build();
         }
 
         // ── Step 2: Map rows + enrich from fixed point search API ─────────
@@ -262,22 +272,22 @@ public class FixedPointBookingSchedulerService {
         log.info("Starting automated daily Fixed Point Booking Job for tenant: {}", tenantId);
 
         // 1. Fetch all active filling points (using your repository)
-        List<String> activeFillingPoints = fixedPointDetailsRepository.getAllActiveFillingPoints(tenantId);
+//        List<String> activeFillingPoints = fixedPointDetailsRepository.getAllActiveFillingPoints(tenantId);
 
-        if (activeFillingPoints == null || activeFillingPoints.isEmpty()) {
-            log.warn("No active filling points found. Scheduler nothing to do.");
-            return;
-        }
+//        if (activeFillingPoints == null || activeFillingPoints.isEmpty()) {
+//            log.warn("No active filling points found. Scheduler nothing to do.");
+//            return;
+//        }
 
         // 2. Iterate and trigger the scheduling logic for each filling point
         // We pass null for fillingPointId to process all, or loop through the list:
-        for (String fillingPointId : activeFillingPoints) {
-            try {
-                log.info("Automated job processing fillingPointId: {}", fillingPointId);
-                runScheduler(tenantId, LocalDate.now(), fillingPointId, null);
-            } catch (Exception e) {
-                log.error("Failed to process automated booking for fillingPointId: {}", fillingPointId, e);
-            }
-        }
+//        for (String fillingPointId : activeFillingPoints) {
+//            try {
+//                log.info("Automated job processing fillingPointId: {}", fillingPointId);
+                runScheduler(tenantId, LocalDate.now(), null, null);
+//            } catch (Exception e) {
+//                log.error("Failed to process automated booking for fillingPointId: {}", fillingPointId, e);
+//            }
+//        }
     }
 }
