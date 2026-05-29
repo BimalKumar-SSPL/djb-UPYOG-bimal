@@ -1,5 +1,5 @@
 .icon-bg-secondary {
-  @apply flex bg-secondary w-12 h-12;
+  @apply flex bg-secondary w-6 h-6 rounded-full;
 
   svg {
     margin: auto;
@@ -8,7 +8,7 @@
 }
 
 .heading-m {
-  @apply font-bold text-text-primary text-heading-m ml-md pt-sm;
+  @apply font-bold text-text-primary;
 }
 
 .BPAheading-m {
@@ -88,7 +88,8 @@
   }
 
   .heading-m {
-    @apply text-heading-m-dt;
+    font-size: 24px;
+    line-height: 24px;
   }
 
   .BPAheading-m {

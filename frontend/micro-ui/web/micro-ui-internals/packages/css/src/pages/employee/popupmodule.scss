@@ -1,10 +1,18 @@
 .popup-module {
+  max-height: 100%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
   width: auto;
   margin: 0 auto;
+  overflow: hidden;
   @apply bg-white;
 
   .popup-module-main {
-    @apply px-lg pb-lg;
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .popup-module-action-bar {
@@ -24,10 +32,7 @@
     @apply bg-white;
 
     .popup-module-main {
-      @apply px-lg pb-lg;
-    }
-    .popup-module-main {
-      @apply w-full p-sm h-full;
+      @apply w-full p-md h-full;
     }
 
     .popup-module-action-bar {

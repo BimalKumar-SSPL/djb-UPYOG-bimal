@@ -230,17 +230,15 @@ const AssignEkycModal = ({ surveyor, closeModal }) => {
       actionCancelOnSubmit={closeModal}
       actionSaveLabel={`Assign ${selectedKnos.length} KNOs`}
       actionSaveOnSubmit={handleAssign}
-      popupStyles={{
-        width: "95%",
-        maxWidth: "1400px",
-        minHeight: "700px",
-      }}
     >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           gap: "20px",
+          height: "inherit",
+          overflowY: "scroll",
+          flex: 1,
         }}
       >
         {/* Filters */}
