@@ -34,10 +34,6 @@ const Modal = ({
    */
   const mobileView = Digit.Utils.browser.isMobile() ? true : false;
 
-  const baseMainStyles = {
-    padding: mobileView ? "12px 12px 16px" : "16px 20px 20px",
-  };
-
   const legacyActionBarStyle = isOBPSFlow
     ? !mobileView
       ? { marginRight: "18px" }
@@ -75,10 +71,7 @@ const Modal = ({
           }
         }
       `}</style>
-      <div
-        className="popup-module"
-        style={{ height: "inherit", overflowY: "scroll", borderRadius: "12px", display: "flex", flexDirection: "column" }}
-      >
+      <div className="popup-module">
         <HeaderBar
           main={headerBarMain}
           end={headerBarEnd}
@@ -89,7 +82,7 @@ const Modal = ({
             ...(headerBarMainStyle || {}),
           }}
         />
-        <div className="popup-module-main" style={{ ...baseMainStyles, ...(popupModuleMianStyles || {}), flex: 1, overflowY: "scroll" }}>
+        <div className="popup-module-main">
           {children}
           <div className="popup-module-action-bar" style={{ ...baseActionBarStyle, ...legacyActionBarStyle }}>
             {actionCancelLabel ? <ButtonSelector theme="border" label={actionCancelLabel} onSubmit={actionCancelOnSubmit} style={style} /> : null}
