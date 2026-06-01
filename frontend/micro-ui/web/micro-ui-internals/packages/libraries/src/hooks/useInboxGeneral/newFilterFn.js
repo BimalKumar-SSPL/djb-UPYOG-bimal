@@ -265,7 +265,7 @@ export const filterFunctions = {
     const workflowFilters = {};
 
 
-    const { bookingNo, mobileNumber, fillingPointId, vendorName, vehicleName, driverName, limit, offset, sortBy, sortOrder, total, services, applicationStatus, fromDate } = filtersArg || {};
+    const { bookingNo, mobileNumber, fillingPointId, vendorName, vehicleName, driverName, limit, offset, sortBy, sortOrder, total, services, applicationStatus, fromDate, toDate } = filtersArg || {};
 
     if (filtersArg?.uuid && filtersArg?.uuid.code === "ASSIGNED_TO_ME") {
       workflowFilters.assignee = uuid;
@@ -299,6 +299,9 @@ export const filterFunctions = {
     }
     if (fromDate) {
       searchFilters.fromDate = new Date(fromDate).getTime();
+    }
+    if (toDate) {
+      searchFilters.toDate = new Date(toDate).getTime();
     }
     if (services) {
       workflowFilters.businessService = services;

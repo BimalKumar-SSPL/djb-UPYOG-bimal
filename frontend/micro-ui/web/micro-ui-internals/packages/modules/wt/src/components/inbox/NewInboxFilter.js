@@ -17,25 +17,25 @@ const Filter = ({ searchParams, onFilterChange, defaultSearchParams, statusMap, 
   const statusOptions =
     moduleCode === "TP"
       ? [
-          { i18nKey: "TP_BOOKING_CREATED", code: "BOOKING_CREATED", value: t("TP_BOOKING_CREATED"), uuid: "BOOKING_CREATED" },
-          { i18nKey: "TP_PENDING_FOR_APPROVAL", code: "PENDING_FOR_APPROVAL", value: t("TP_PENDING_FOR_APPROVAL"), uuid: "PENDING_FOR_APPROVAL" },
-          { i18nKey: "TP_PAYMENT_PENDING", code: "PAYMENT_PENDING", value: t("TP_PAYMENT_PENDING"), uuid: "PAYMENT_PENDING" },
-          {
-            i18nKey: "TP_TEAM_ASSIGNMENT_FOR_VERIFICATION",
-            code: "TEAM_ASSIGNMENT_FOR_VERIFICATION",
-            value: t("TP_TEAM_ASSIGNMENT_FOR_VERIFICATION"),
-            uuid: "TEAM_ASSIGNMENT_FOR_VERIFICATION",
-          },
-          { i18nKey: "TP_TEAM_ASSIGNMENT_FOR_EXECUTION", code: "TEAM_ASSIGNMENT_FOR_EXECUTION", value: t("TP_TEAM_ASSIGNMENT_FOR_EXECUTION"), uuid: "TEAM_ASSIGNMENT_FOR_EXECUTION" },
-          { i18nKey: "TP_TREE_PRUNING_SERVICE_COMPLETED", code: "TREE_PRUNING_SERVICE_COMPLETED", value: t("TP_TREE_PRUNING_SERVICE_COMPLETED"), uuid: "TREE_PRUNING_SERVICE_COMPLETED" },
-        ]
+        { i18nKey: "TP_BOOKING_CREATED", code: "BOOKING_CREATED", value: t("TP_BOOKING_CREATED"), uuid: "BOOKING_CREATED" },
+        { i18nKey: "TP_PENDING_FOR_APPROVAL", code: "PENDING_FOR_APPROVAL", value: t("TP_PENDING_FOR_APPROVAL"), uuid: "PENDING_FOR_APPROVAL" },
+        { i18nKey: "TP_PAYMENT_PENDING", code: "PAYMENT_PENDING", value: t("TP_PAYMENT_PENDING"), uuid: "PAYMENT_PENDING" },
+        {
+          i18nKey: "TP_TEAM_ASSIGNMENT_FOR_VERIFICATION",
+          code: "TEAM_ASSIGNMENT_FOR_VERIFICATION",
+          value: t("TP_TEAM_ASSIGNMENT_FOR_VERIFICATION"),
+          uuid: "TEAM_ASSIGNMENT_FOR_VERIFICATION",
+        },
+        { i18nKey: "TP_TEAM_ASSIGNMENT_FOR_EXECUTION", code: "TEAM_ASSIGNMENT_FOR_EXECUTION", value: t("TP_TEAM_ASSIGNMENT_FOR_EXECUTION"), uuid: "TEAM_ASSIGNMENT_FOR_EXECUTION" },
+        { i18nKey: "TP_TREE_PRUNING_SERVICE_COMPLETED", code: "TREE_PRUNING_SERVICE_COMPLETED", value: t("TP_TREE_PRUNING_SERVICE_COMPLETED"), uuid: "TREE_PRUNING_SERVICE_COMPLETED" },
+      ]
       : [
-          { i18nKey: "WT_SCHEDULED", code: "SCHEDULED", value: t("WT_SCHEDULED"), uuid: "SCHEDULED" },
-          { i18nKey: "WT_IN_TRANSIT", code: "IN_TRANSIT", value: t("WT_IN_TRANSIT"), uuid: "IN_TRANSIT" },
-          { i18nKey: "WT_TANKER_DELIVERED", code: "TANKER_DELIVERED", value: t("WT_TANKER_DELIVERED"), uuid: "TANKER_DELIVERED" },
-          { i18nKey: "WT_MISSED", code: "MISSED", value: t("WT_MISSED"), uuid: "MISSED" },
-          { i18nKey: "WT_CANCELLED", code: "CANCELLED", value: t("WT_CANCELLED"), uuid: "CANCELLED" },
-        ];
+        { i18nKey: "WT_SCHEDULED", code: "SCHEDULED", value: t("WT_SCHEDULED"), uuid: "SCHEDULED" },
+        { i18nKey: "WT_IN_TRANSIT", code: "IN_TRANSIT", value: t("WT_IN_TRANSIT"), uuid: "IN_TRANSIT" },
+        { i18nKey: "WT_TANKER_DELIVERED", code: "TANKER_DELIVERED", value: t("WT_TANKER_DELIVERED"), uuid: "TANKER_DELIVERED" },
+        { i18nKey: "WT_MISSED", code: "MISSED", value: t("WT_MISSED"), uuid: "MISSED" },
+        { i18nKey: "WT_CANCELLED", code: "CANCELLED", value: t("WT_CANCELLED"), uuid: "CANCELLED" },
+      ];
 
   const localParamChange = (filterParam) => {
     let keys_to_delete = filterParam.delete;
@@ -54,13 +54,13 @@ const Filter = ({ searchParams, onFilterChange, defaultSearchParams, statusMap, 
   };
 
   const clearAll = () => {
-    const defaultParams = { ...defaultSearchParams, services: defaultSearchParams?.services || searchParams?.services || [], status: null, applicationStatus: null, fromDate: "", fillingPointId: null, fillingPoint: null };
+    const defaultParams = { ...defaultSearchParams, services: defaultSearchParams?.services || searchParams?.services || [], status: null, applicationStatus: null, fromDate: "", toDate: "", fillingPointId: null, fillingPoint: null };
     setSearchParams(defaultParams);
     onFilterChange(defaultParams);
   };
 
   const tenantId = Digit.ULBService.getCurrentTenantId();
- 
+
   return (
     <React.Fragment>
       <div className="filter-card">
@@ -108,10 +108,56 @@ const Filter = ({ searchParams, onFilterChange, defaultSearchParams, statusMap, 
               />
             </div>
             <div className="search-field-wrapper" style={{ marginTop: "16px" }}>
-              <label>{t("DATE")}</label>
+              <label>{t("FROM_DATE")}</label>
               <DatePicker
-                date={_searchParams?.fromDate}
-                onChange={(date) => localParamChange({ fromDate: date })}
+                date={
+                  typeof _searchParams?.fromDate === "number"
+                    ? (() => {
+                      const d = new Date(_searchParams.fromDate);
+                      const y = d.getFullYear();
+                      const m = String(d.getMonth() + 1).padStart(2, "0");
+                      const day = String(d.getDate()).padStart(2, "0");
+                      return `${y}-${m}-${day}`;
+                    })()
+                    : _searchParams?.fromDate
+                }
+                onChange={(date) => {
+                  if (date) {
+                    const dateParts = date.split("-");
+                    const fromDateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                    fromDateObj.setHours(0, 0, 0, 0);
+                    localParamChange({ fromDate: fromDateObj.getTime() });
+                  } else {
+                    localParamChange({ fromDate: "" });
+                  }
+                }}
+                max={new Date().toISOString().split("T")[0]}
+              />
+            </div>
+            <div className="search-field-wrapper" style={{ marginTop: "16px" }}>
+              <label>{t("TO_DATE")}</label>
+              <DatePicker
+                date={
+                  typeof _searchParams?.toDate === "number"
+                    ? (() => {
+                      const d = new Date(_searchParams.toDate);
+                      const y = d.getFullYear();
+                      const m = String(d.getMonth() + 1).padStart(2, "0");
+                      const day = String(d.getDate()).padStart(2, "0");
+                      return `${y}-${m}-${day}`;
+                    })()
+                    : _searchParams?.toDate
+                }
+                onChange={(date) => {
+                  if (date) {
+                    const dateParts = date.split("-");
+                    const toDateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                    toDateObj.setHours(23, 59, 59, 999);
+                    localParamChange({ toDate: toDateObj.getTime() });
+                  } else {
+                    localParamChange({ toDate: "" });
+                  }
+                }}
                 max={new Date().toISOString().split("T")[0]}
               />
             </div>
